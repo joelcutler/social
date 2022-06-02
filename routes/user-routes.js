@@ -1,14 +1,15 @@
-const { Schema, model, Types } = require("mongoose");
+const { User } = require("../models");
+const router = require("express").Router();
 
 // create new user
-app.post("/create", ({ body }, res) => {
+router.post("/create", ({ body }, res) => {
   User.create(body)
     .then((dbUserData) => res.json(dbUserData))
     .catch((err) => res.status(400).json(err));
 });
 
 // get all users
-app.get("/all", (req, res) => {
+router.get("/all", (req, res) => {
   User.find({})
     .then((dbUserData) => {
       res.json(dbUserData);
@@ -19,7 +20,7 @@ app.get("/all", (req, res) => {
 });
 
 // get one user by id
-app.get("/:id", ({ params }, res) => {
+router.get("/:id", ({ params }, res) => {
   User.findOne({ _id: params.id })
     .then((dbUserData) => {
       if (!dbUserData) {
@@ -32,7 +33,7 @@ app.get("/:id", ({ params }, res) => {
 });
 
 // update user by id
-app.put("/update/:id", ({ params, body }, res) => {
+router.put("/update/:id", ({ params, body }, res) => {
   User.findOneAndUpdate({ _id: params.id }, body, {
     new: true,
     runValidators: true,
@@ -48,7 +49,7 @@ app.put("/update/:id", ({ params, body }, res) => {
 });
 
 // delete user by id
-app.delete("/delete/:id", ({ params }, res) => {
+router.delete("/delete/:id", ({ params }, res) => {
   User.findOneAndDelete({ _id: params.id })
     .then((dbUserData) => {
       if (!dbUserData) {
@@ -59,3 +60,5 @@ app.delete("/delete/:id", ({ params }, res) => {
     })
     .catch((err) => res.status(400).json(err));
 });
+
+module.exports = router;
