@@ -91,7 +91,7 @@ router.post("/:thoughtId/reactions", ({ body, params }, res) => {
     .catch((err) => res.status(400).json(err));
 });
 
-// create new reaction
+// delete reaction by id
 router.delete("/:thoughtId/reactions/:reactionId", ({ params }, res) => {
   Thought.findOneAndUpdate(
     { _id: params.thoughtId },

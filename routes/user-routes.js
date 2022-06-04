@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Thought } = require("../models");
 const router = require("express").Router();
 
 // BONUS: Remove a user's associated thoughts when deleted.
@@ -63,15 +63,17 @@ router.put("/update/:id", ({ params, body }, res) => {
 
 // delete user by id
 router.delete("/delete/:id", ({ params }, res) => {
-  User.findOneAndDelete({ _id: params.id })
-    .then((dbUserData) => {
-      if (!dbUserData) {
-        res.status(404).json({ message: "No User found with this id!" });
+  User.findOneAndDelete({ _id: params.id }).then((dbUserData) => {
+    if (!dbUserData) {
+      res.status(404).json({ message: "No user found with this id!" });
+    }
+    Thought.deleteMany({ userId: params.id })
+      .then((dbUserData) => {
+        res.json(dbUserData);
         return;
-      }
-      res.json(dbUserData);
-    })
-    .catch((err) => res.status(400).json(err));
+      })
+      .catch((err) => res.status(400).json(err));
+  });
 });
 
 // create new friend
