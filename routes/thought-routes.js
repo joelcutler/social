@@ -81,24 +81,25 @@ router.delete("/delete/:id", ({ params }, res) => {
 
 // create new reaction
 router.post("/:thoughtId/reactions", ({ body, params }, res) => {
-  console.log(body, "string");
+  // console.log(body, "string");
   Thought.findOneAndUpdate(
     { _id: params.thoughtId },
     { $push: { reactions: body } },
     { new: true }
   )
-    .then((dbFriendData) => res.json(dbFriendData))
+    .then((dbThoughtData) => res.json(dbThoughtData))
     .catch((err) => res.status(400).json(err));
 });
 
 // delete reaction by id
 router.delete("/:thoughtId/reactions/:reactionId", ({ params }, res) => {
+  console.log(params, "stringcheese");
   Thought.findOneAndUpdate(
     { _id: params.thoughtId },
-    { $pull: { reactions: params.reactionId } },
+    { $pull: { reactions: { reactionId: params.reactionId } } },
     { new: true }
   )
-    .then((dbFriendData) => res.json(dbFriendData))
+    .then((dbThoughtData) => res.json(dbThoughtData))
     .catch((err) => res.status(400).json(err));
 });
 module.exports = router;
