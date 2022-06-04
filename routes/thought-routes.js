@@ -93,7 +93,7 @@ router.post("/:thoughtId/reactions", ({ body, params }, res) => {
 
 // delete reaction by id
 router.delete("/:thoughtId/reactions/:reactionId", ({ params }, res) => {
-  console.log(params, "stringcheese");
+  // console.log(params, "stringcheese");
   Thought.findOneAndUpdate(
     { _id: params.thoughtId },
     { $pull: { reactions: { reactionId: params.reactionId } } },
